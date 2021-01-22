@@ -1,5 +1,7 @@
 using RestSharp;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Web;
 
 namespace TravelApiClient.Models
 {
@@ -39,20 +41,25 @@ namespace TravelApiClient.Models
       return response.Content;
     }
 
-    public static async Task Post(string newReview)
+    public static async Task Post(string newReview, Microsoft.AspNetCore.Http.HttpContext context)
     {
       RestClient client = new RestClient("http://localhost:5004/api");
       RestRequest request = new RestRequest($"reviews", Method.POST);
       request.AddHeader("Content-Type", "application/json");
+   
+      string cookie = context.Request.Cookies["CookieKeyJWT"];
+      request.AddHeader("Authorization", "Bearer " + cookie);
       request.AddJsonBody(newReview);
       IRestResponse response = await client.ExecuteTaskAsync(request);
     }
 
-    public static async Task Put(int id, string newReview)
+    public static async Task Put(int id, string newReview,Microsoft.AspNetCore.Http.HttpContext context)
     {
       RestClient client = new RestClient("http://localhost:5004/api");
       RestRequest request = new RestRequest($"reviews/{id}", Method.PUT);
       request.AddHeader("Content-Type", "application/json");
+      string cookie = context.Request.Cookies["CookieKeyJWT"];
+      request.AddHeader("Authorization", "Bearer " + cookie);
       request.AddJsonBody(newReview);
       IRestResponse response = await client.ExecuteTaskAsync(request);
     }

@@ -39,10 +39,10 @@ namespace TravelApiClient.Models
       return Review;
     }
 
-    public async static Task Post(Review Review)
+    public async static Task Post(Review Review,Microsoft.AspNetCore.Http.HttpContext context)
     {
       string jsonReview = JsonConvert.SerializeObject(Review);
-      await ApiHelper.Post(jsonReview);
+      await ApiHelper.Post(jsonReview,context);
     }
 
     public static async Task Delete(int id)
@@ -50,10 +50,10 @@ namespace TravelApiClient.Models
       await ApiHelper.Delete(id);
     }
 
-    public static async Task Put(Review Review)
+    public static async Task Put(Review Review, Microsoft.AspNetCore.Http.HttpContext context)
     {
       string jsonReview = JsonConvert.SerializeObject(Review);
-      await ApiHelper.Put(Review.ReviewId, jsonReview);
+      await ApiHelper.Put(Review.ReviewId, jsonReview,context);
     }
   }
   public enum Rating
