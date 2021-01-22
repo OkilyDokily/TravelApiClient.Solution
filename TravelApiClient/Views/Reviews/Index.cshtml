@@ -1,0 +1,7 @@
+@using TravelApiClient.Models
+@foreach(Review review in @Model)
+{
+  <div>
+    <p>@Html.ActionLink(@review.City + ", " + @review.Country,"Details",new{id = @review.ReviewId})</p>
+  </div>
+}
