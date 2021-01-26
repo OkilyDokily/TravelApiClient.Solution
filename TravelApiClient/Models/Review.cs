@@ -19,14 +19,22 @@ namespace TravelApiClient.Models
     [Required]
     public string City { get; set; }
 
-    public static async Task<List<Review>> GetReviews()
+    public static async Task<List<Review>> GetReviews(string country,string city,string option)
     {
-      string result = await ApiHelper.GetAll();
+      string result = await ApiHelper.GetAll(country, city, option);
 
       JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
       List<Review> ReviewList = JsonConvert.DeserializeObject<List<Review>>(jsonResponse.ToString());
 
       return ReviewList;
+    }
+
+    public static async Task<List<string>> Popular(string option)
+    {
+      string result = await ApiHelper.GetPopular(option);
+      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
+      List<string> stringList = JsonConvert.DeserializeObject<List<string>>(jsonResponse.ToString());
+      return stringList;
     }
 
     public async static Task<Review> GetDetails(int id)
@@ -45,9 +53,9 @@ namespace TravelApiClient.Models
       await ApiHelper.Post(jsonReview,context);
     }
 
-    public static async Task Delete(int id)
+    public static async Task Delete(int id, Microsoft.AspNetCore.Http.HttpContext context)
     {
-      await ApiHelper.Delete(id);
+      await ApiHelper.Delete(id,context);
     }
 
     public static async Task Put(Review Review, Microsoft.AspNetCore.Http.HttpContext context)

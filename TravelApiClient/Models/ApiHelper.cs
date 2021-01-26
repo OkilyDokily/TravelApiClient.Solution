@@ -1,5 +1,6 @@
 using RestSharp;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.Web;
 
@@ -8,7 +9,7 @@ namespace TravelApiClient.Models
   public class ApiHelper
   {
 
-    public static async Task<string> GetAll(string country = "", string city = "", string option = "")
+    public static async Task<string> GetAll(string country, string city, string option)
     {
       RestClient client = new RestClient("http://localhost:5004/api");
       RestRequest request = new RestRequest($"reviews?country={country}&city={city}&option={option}", Method.GET);
@@ -64,11 +65,13 @@ namespace TravelApiClient.Models
       IRestResponse response = await client.ExecuteTaskAsync(request);
     }
 
-    public static async Task Delete(int id)
+    public static async Task Delete(int id, Microsoft.AspNetCore.Http.HttpContext context)
     {
       RestClient client = new RestClient("http://localhost:5004/api");
       RestRequest request = new RestRequest($"reviews/{id}", Method.DELETE);
       request.AddHeader("Content-Type", "application/json");
+      string cookie = context.Request.Cookies["CookieKeyJWT"];
+      request.AddHeader("Authorization", "Bearer " + cookie);
       IRestResponse response = await client.ExecuteTaskAsync(request);
     }
 

@@ -1,4 +1,24 @@
 @using TravelApiClient.Models
+<div>@Html.ActionLink("Add a new review","Create","Reviews")</div>
+<hr>
+@using(@Html.BeginForm("Index","Reviews",FormMethod.Get))
+{
+  @Html.Label("Country")
+  @Html.TextBox("country")
+  @Html.Label("City")
+  @Html.TextBox("city")
+  @Html.Label("Option")
+  @Html.DropDownList("option",new List<SelectListItem>{new SelectListItem("Choose",""),new SelectListItem("Rating","rating"),new SelectListItem("Number","number")})
+  <input type="submit" value="Search">
+}
+<hr>
+@using(@Html.BeginForm("Popular","Reviews",FormMethod.Get))
+{
+    @Html.Label("Option")
+    @Html.DropDownList("option",new List<SelectListItem>{new SelectListItem("Choose",""),new SelectListItem("Rating","rating"),new SelectListItem("Number","number")})
+    <input type="submit" value="See most popular">
+}
+<hr>
 @foreach(Review review in @Model)
 {
   <div>

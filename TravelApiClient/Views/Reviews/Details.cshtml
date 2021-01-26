@@ -7,4 +7,8 @@
 </div>
 <div>
   @Html.ActionLink("Edit","Edit",new{id = @Model.ReviewId})
+  @using(Html.BeginForm("Delete","Reviews",new {id = @Model.ReviewId}))
+  {
+    <input type="submit" value="Delete">
+  }
 </div>

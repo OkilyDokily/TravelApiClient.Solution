@@ -10,10 +10,16 @@ namespace TravelApiClient.Controllers
 {
   public class ReviewsController : Controller
   {
-    public async Task<ActionResult> Index()
+    public async Task<ActionResult> Index(string country, string city, string option)
     {
-      List<Review> reviews = await Review.GetReviews();
+      List<Review> reviews = await Review.GetReviews(country,city,option);
       return View(reviews);
+    }
+
+    public async Task<ActionResult> Popular(string option)
+    {
+      List<string> strings = await Review.Popular(option);
+      return View(strings);
     }
 
     public async Task<ActionResult> Details(int id)
@@ -42,8 +48,14 @@ namespace TravelApiClient.Controllers
     [HttpPost]
     public async Task<ActionResult> Edit(Review review)
     {
-      Console.WriteLine(review.Country);
       await Review.Put(review, HttpContext);
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Delete(int id)
+    {
+      await Review.Delete(id, HttpContext);
       return RedirectToAction("Index");
     }
   }
