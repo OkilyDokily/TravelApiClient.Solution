@@ -12,7 +12,7 @@ namespace TravelApiClient.Controllers
   {
     public async Task<ActionResult> Index(string country, string city, string option)
     {
-      List<Review> reviews = await Review.GetReviews(country,city,option);
+      List<Review> reviews = await Review.GetReviews(country, city, option);
       return View(reviews);
     }
 
@@ -20,6 +20,13 @@ namespace TravelApiClient.Controllers
     {
       List<string> strings = await Review.Popular(option);
       return View(strings);
+    }
+
+    public async Task<ActionResult> Random()
+    {
+      string result = await Review.GetRandom();
+      ViewBag.result = result;
+      return View();
     }
 
     public async Task<ActionResult> Details(int id)
@@ -59,5 +66,4 @@ namespace TravelApiClient.Controllers
       return RedirectToAction("Index");
     }
   }
-
 }

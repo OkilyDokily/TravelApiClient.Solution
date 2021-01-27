@@ -4,6 +4,7 @@ using TravelApiClient.Models;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 namespace TravelApiClient.Models
 {
   public class Review
@@ -19,7 +20,7 @@ namespace TravelApiClient.Models
     [Required]
     public string City { get; set; }
 
-    public static async Task<List<Review>> GetReviews(string country,string city,string option)
+    public static async Task<List<Review>> GetReviews(string country, string city, string option)
     {
       string result = await ApiHelper.GetAll(country, city, option);
 
@@ -37,6 +38,13 @@ namespace TravelApiClient.Models
       return stringList;
     }
 
+    public static async Task<string> GetRandom()
+    {
+      string result = await ApiHelper.GetRandom();
+      string deserializedString = JsonConvert.DeserializeObject<string>(result);
+      return deserializedString;
+    }
+
     public async static Task<Review> GetDetails(int id)
     {
       string result = await ApiHelper.Get(id);
@@ -47,21 +55,21 @@ namespace TravelApiClient.Models
       return Review;
     }
 
-    public async static Task Post(Review Review,Microsoft.AspNetCore.Http.HttpContext context)
+    public async static Task Post(Review Review, Microsoft.AspNetCore.Http.HttpContext context)
     {
       string jsonReview = JsonConvert.SerializeObject(Review);
-      await ApiHelper.Post(jsonReview,context);
+      await ApiHelper.Post(jsonReview, context);
     }
 
     public static async Task Delete(int id, Microsoft.AspNetCore.Http.HttpContext context)
     {
-      await ApiHelper.Delete(id,context);
+      await ApiHelper.Delete(id, context);
     }
 
     public static async Task Put(Review Review, Microsoft.AspNetCore.Http.HttpContext context)
     {
       string jsonReview = JsonConvert.SerializeObject(Review);
-      await ApiHelper.Put(Review.ReviewId, jsonReview,context);
+      await ApiHelper.Put(Review.ReviewId, jsonReview, context);
     }
   }
   public enum Rating

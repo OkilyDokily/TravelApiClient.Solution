@@ -32,7 +32,19 @@ namespace TravelApiClient.Controllers
           IsEssential = true,
           HttpOnly = true
         });
-      return RedirectToAction("Index", "Home");
+      return RedirectToAction("Index", "Reviews");
+    }
+
+    public ActionResult Register()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Register(string username, string password, string passwordmatch)
+    {
+      await Security.Register(username, password, passwordmatch);
+      return RedirectToAction("Login");
     }
 
   }

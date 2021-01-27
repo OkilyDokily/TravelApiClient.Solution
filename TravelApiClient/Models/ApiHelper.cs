@@ -2,7 +2,7 @@ using RestSharp;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using System.Web;
+using System;
 
 namespace TravelApiClient.Models
 {
@@ -16,7 +16,6 @@ namespace TravelApiClient.Models
       IRestResponse response = await client.ExecuteTaskAsync(request);
       return response.Content;
     }
-
 
     public static async Task<string> Get(int id)
     {
@@ -37,7 +36,7 @@ namespace TravelApiClient.Models
     public static async Task<string> GetPopular(string option)
     {
       RestClient client = new RestClient("http://localhost:5004/api");
-      RestRequest request = new RestRequest($"reviews?option={option}", Method.GET);
+      RestRequest request = new RestRequest($"reviews/popular?option={option}", Method.GET);
       IRestResponse response = await client.ExecuteTaskAsync(request);
       return response.Content;
     }
@@ -74,6 +73,5 @@ namespace TravelApiClient.Models
       request.AddHeader("Authorization", "Bearer " + cookie);
       IRestResponse response = await client.ExecuteTaskAsync(request);
     }
-
   }
 }
