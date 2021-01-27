@@ -31,6 +31,8 @@ namespace TravelApiClient.Controllers
 
     public async Task<ActionResult> Details(int id)
     {
+      Payload cookieValueFromReq = Payload.GetPayloadObject(HttpContext);
+      DateTime date = DateTime.
       Review review = await Review.GetDetails(id);
       return View(review);
     }

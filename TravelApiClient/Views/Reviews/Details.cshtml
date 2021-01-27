@@ -1,3 +1,5 @@
+
+
 <div>
   <p>Id: @Model.ReviewId</p>
   <p>Rating: @Model.Rating</p>
@@ -5,6 +7,10 @@
   <p>Country: @Model.Country</p>
   <p>City: @Model.City</p>
 </div>
+@* @functions{
+    
+} *@
+
 <div>
   @Html.ActionLink("Edit","Edit",new{id = @Model.ReviewId})
   @using(Html.BeginForm("Delete","Reviews",new {id = @Model.ReviewId}))
