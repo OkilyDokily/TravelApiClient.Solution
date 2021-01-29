@@ -1,5 +1,17 @@
 @using TravelApiClient.Models
-<div>@Html.ActionLink("Add a new review","Create","Reviews")</div>
+@if (ViewBag.expired == true)
+{
+  <div>Your login session has expired. Login again to add a new review</div>
+}
+else if (ViewBag.expired == false)
+{
+  <div>@Html.ActionLink("Add a new review","Create","Reviews")</div>
+}
+else
+{
+  <div>You must login and/or register a new account to add reviews</div>
+}
+
 <hr>
 @using (@Html.BeginForm("Index", "Reviews", FormMethod.Get))
 {

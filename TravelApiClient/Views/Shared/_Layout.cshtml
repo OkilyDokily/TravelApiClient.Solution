@@ -36,6 +36,24 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Reviews"
                                 asp-action="Index">Reviews</a>
                         </li>
+                        <li>
+                            @{
+                                (bool,bool, string) result = Payload.GetValues(Context);
+                                @if(result.Item1 == false)
+                                {
+                                    <p style="display:inline;">You are not logged in.</p>
+                                }
+                                else if(result.Item1 == true && result.Item2 == false)
+                                {
+                                     <p style="display:inline;">You are logged in as @result.Item3</p>
+                                   
+                                }
+                                else if(result.Item1 == true && result.Item2 == true)
+                                {
+                                    <p style="display:inline;">Hello @result.Item3,You need to log in again because your session is expired</p>
+                                }
+                            }      
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -27,5 +27,23 @@ namespace TravelApiClient.Models
       long unixTimeStampInTicks = (long)(unixTime * TimeSpan.TicksPerSecond);
       return new DateTime(unixStart.Ticks + unixTimeStampInTicks, System.DateTimeKind.Utc);
     }
+
+    public static (bool, bool, string) GetValues(Microsoft.AspNetCore.Http.HttpContext context)
+    {
+      try
+      {
+        Payload cookieValueFromReq = Payload.GetPayloadObject(context);
+        DateTime date = DateTime.Now;
+        DateTime dateJWT = Payload.UnixTimestampToDateTime(cookieValueFromReq.exp);
+        string userName = cookieValueFromReq.aud;
+        bool expired = date > dateJWT;
+
+        return (true, expired, userName);
+      }
+      catch
+      {
+        return (false, true, "");
+      }
+    }
   }
 }

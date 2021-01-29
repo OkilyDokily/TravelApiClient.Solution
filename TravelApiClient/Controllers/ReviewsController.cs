@@ -12,8 +12,22 @@ namespace TravelApiClient.Controllers
   {
     public async Task<ActionResult> Index(string country, string city, string option)
     {
-      List<Review> reviews = await Review.GetReviews(country, city, option);
-      return View(reviews);
+      try
+      {
+        Payload cookieValueFromReq = Payload.GetPayloadObject(HttpContext);
+        DateTime date = DateTime.Now;
+        DateTime dateJWT = Payload.UnixTimestampToDateTime(cookieValueFromReq.exp);
+
+        List<Review> reviews = await Review.GetReviews(country, city, option);
+        ViewBag.expired = date > dateJWT;
+       
+        return View(reviews);
+      }
+      catch
+      {
+        List<Review> reviews = await Review.GetReviews(country, city, option);
+        return View(reviews);
+      }
     }
 
     public async Task<ActionResult> Popular(string option)
@@ -31,15 +45,40 @@ namespace TravelApiClient.Controllers
 
     public async Task<ActionResult> Details(int id)
     {
-      Payload cookieValueFromReq = Payload.GetPayloadObject(HttpContext);
-      DateTime date = DateTime.
-      Review review = await Review.GetDetails(id);
-      return View(review);
+      
+      try
+      {
+        Payload cookieValueFromReq = Payload.GetPayloadObject(HttpContext);
+        DateTime date = DateTime.Now;
+        DateTime dateJWT = Payload.UnixTimestampToDateTime(cookieValueFromReq.exp);
+
+        Review review = await Review.GetDetails(id);
+        ViewBag.expired = date > dateJWT;
+        ViewBag.userName = cookieValueFromReq.aud;
+        return View(review);
+      }
+      catch
+      {
+        Review review = await Review.GetDetails(id);
+        return View(review);
+      }
     }
 
     public ActionResult Create()
     {
-      return View();
+      try
+      {
+        Payload cookieValueFromReq = Payload.GetPayloadObject(HttpContext);
+        DateTime date = DateTime.Now;
+        DateTime dateJWT = Payload.UnixTimestampToDateTime(cookieValueFromReq.exp);
+        ViewBag.expired = date > dateJWT;
+        return View();
+      }
+      catch
+      {
+        return View();
+      }
+     
     }
 
     [HttpPost]
@@ -51,8 +90,22 @@ namespace TravelApiClient.Controllers
 
     public async Task<ActionResult> Edit(int id)
     {
-      Review review = await Review.GetDetails(id);
-      return View(review);
+      try
+      {
+        Payload cookieValueFromReq = Payload.GetPayloadObject(HttpContext);
+        DateTime date = DateTime.Now;
+        DateTime dateJWT = Payload.UnixTimestampToDateTime(cookieValueFromReq.exp);
+
+        Review review = await Review.GetDetails(id);
+        ViewBag.expired = date > dateJWT;
+        ViewBag.userName = cookieValueFromReq.aud;
+        return View(review);
+      }
+      catch
+      {
+        Review review = await Review.GetDetails(id);
+        return View(review);
+      }
     }
     [HttpPost]
     public async Task<ActionResult> Edit(Review review)

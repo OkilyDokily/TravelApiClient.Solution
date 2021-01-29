@@ -1,14 +1,24 @@
 @model TravelApiClient.Models.Review
-<div>
-  @using(Html.BeginForm())
-  {
-    @Html.HiddenFor(x=>x.ReviewId)
-    @Html.LabelFor(x=>x.Rating)
-    @Html.EditorFor(x=>x.Rating)
-    @Html.LabelFor(x=>x.Country)
-    @Html.EditorFor(x=>x.Country)
-    @Html.LabelFor(x=>x.City)
-    @Html.EditorFor(x=>x.City)
-    <input type="submit" value="Edit">
-  }
-</div>
+@if(@ViewBag.userName == @Model.UserName && @ViewBag.expired == false)
+{
+  <div>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x=>x.ReviewId)
+        @Html.LabelFor(x=>x.Rating)
+        @Html.EditorFor(x=>x.Rating)
+        @Html.LabelFor(x=>x.Country)
+        @Html.EditorFor(x=>x.Country)
+        @Html.LabelFor(x=>x.City)
+        @Html.EditorFor(x=>x.City)
+        <input type="submit" value="Edit">
+    }
+  </div>
+}
+else
+{
+  <div>You must be logged in as @Model.UserName to edit this review</div>
+}
+
+
+
