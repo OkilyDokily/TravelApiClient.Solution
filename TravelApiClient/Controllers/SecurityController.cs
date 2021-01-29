@@ -24,7 +24,7 @@ namespace TravelApiClient.Controllers
       JObject jwtToken = await Security.Login(username, password);
       Response.Cookies.Delete("CookieKeyJWT");
 
-      HttpContext.Response.Cookies.Append(
+      Response.Cookies.Append(
         "CookieKeyJWT",
         jwtToken.GetValue("token").ToString(),
         new CookieOptions
