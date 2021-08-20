@@ -1,0 +1,35 @@
+@model TravelApiClient.Models.Review
+
+
+@if (ViewBag.expired == true)
+{
+  <div>Your login session has expired. Login again to add a new review</div>
+}
+else if (ViewBag.expired == false)
+{
+  <div>
+    @using (Html.BeginForm())
+    {
+      <div class="form-group">
+        @Html.LabelFor(x=>x.Rating)
+        @Html.DropDownList("Rating",
+    Html.GetEnumSelectList<Rating>(),
+    "Select Rating",new { @class = "form-control" })
+      </div>
+      <div class="form-group">
+        @Html.LabelFor(x=>x.Country)
+        @Html.TextBoxFor(x=>x.Country,new { @class = "form-control" })
+      </div>
+      <div class="form-group">
+        @Html.LabelFor(x=>x.City)
+        @Html.TextBoxFor(x=>x.City,new { @class = "form-control" })
+      </div>
+
+      <input type="submit" value="Post" class="form-control">
+    }
+  </div>
+}
+else
+{
+  <div>You must login and/or register a new account to add reviews</div>
+}

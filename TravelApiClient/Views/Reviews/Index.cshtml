@@ -1,0 +1,51 @@
+@using TravelApiClient.Models
+@if (ViewBag.expired == true)
+{
+  <div>Your login session has expired. Login again to add a new review</div>
+}
+else if (ViewBag.expired == false)
+{
+  <div>@Html.ActionLink("Add a new review","Create","Reviews")</div>
+}
+else
+{
+  <div>You must login and/or register a new account to add reviews</div>
+}
+
+<hr>
+@using (@Html.BeginForm("Index", "Reviews", FormMethod.Get))
+{
+  <div class="form-group">
+    @Html.Label("Country")
+    @Html.TextBox("country",null,new { @class = "form-control" })
+  </div>
+  <div class="form-group">
+    @Html.Label("City")
+    @Html.TextBox("city",null,new { @class = "form-control" })
+  </div>
+  <div class="form-group">
+    @Html.Label("Option")
+    @Html.DropDownList("option",new List<SelectListItem>{new SelectListItem("Choose",""),new
+  SelectListItem("Rating","rating"),new SelectListItem("Number","number")},new { @class = "form-control" })
+  </div>
+    <input type="submit" value="Search" class="form-control">
+}
+<hr>
+@using (@Html.BeginForm("Popular", "Reviews", FormMethod.Get))
+{
+  <div class="form-group">
+    @Html.Label("Option")
+    @Html.DropDownList("option",new List<SelectListItem>{new SelectListItem("Rating","rating"),new
+  SelectListItem("Number","number")},new { @class = "form-control" })
+  </div>
+  <input type="submit" value="See most popular" class="form-control">
+}
+<hr>
+@Html.ActionLink("See a random destination","Random","Reviews");
+<hr>
+@foreach (Review review in @Model)
+{
+  <div>
+    <p>@Html.ActionLink(@review.City + ", " + @review.Country,"Details",new{id = @review.ReviewId})</p>
+  </div>
+}
